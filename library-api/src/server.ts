@@ -1,9 +1,10 @@
-import  express, { Express, NextFunction, Request, Response } from "express";
+import  express, { Express, NextFunction, Request, Response, json } from "express";
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { dbConfig, fe_url, port } from "./config/config";
 import { getLogger } from "./helpers/logger";
 import { HttpError } from "./helpers/custom-error";
+import authorRoute from "./routes/author-route";
 
 const logger = getLogger('SERVER');
 const app: Express = express();
@@ -15,6 +16,10 @@ app.get('/', (req,res) => {
 app.use(cors({
     origin: fe_url
   }));
+
+app.use(json());
+
+app.use("/authors", authorRoute);
 
 app.use(
     (
