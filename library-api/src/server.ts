@@ -1,6 +1,7 @@
 import  express, { Express } from "express";
 import cors from 'cors';
-import { fe_url, port } from "./config/config";
+import mongoose from 'mongoose';
+import { dbConfig, fe_url, port } from "./config/config";
 import { getLogger } from "./helpers/logger";
 
 const logger = getLogger('SERVER');
@@ -14,6 +15,10 @@ app.use(cors({
     origin: fe_url
   }));
 
-app.listen(port, () => {
-    logger.info(`Server is listning ar: ${port}`);
-});
+mongoose.connect(`mongodb://${dbConfig.userName}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/${dbConfig.dbName}?authSource=admin`)
+.then(result => 
+    app.listen(port, () => {
+        logger.info(`Server is listning ar: ${port}`);
+    })
+    )
+.catch(err => logger.error(err));
