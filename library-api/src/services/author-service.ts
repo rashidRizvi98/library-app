@@ -1,7 +1,5 @@
+
 import { Author, IAuthor } from "../database/models/author";
-import { getLogger } from "../helpers/logger";
-
-
 
 const createAuthor = async (payload:IAuthor) => {
     return Author.create(payload);
@@ -19,8 +17,8 @@ const deleteAuthor = async (id: string) => {
     return Author.findByIdAndDelete(id)
 }
 
-const updateAuthor =async (payload: IAuthor) => {
-    return Author.findByIdAndUpdate(payload);
+const updateAuthor = async (authorId: string, payload: Partial<IAuthor>) => {
+    return Author.findByIdAndUpdate(authorId, payload, { new: true });
 }
 
 export default { findAuthorById, findAllAuthors, createAuthor, deleteAuthor, updateAuthor };

@@ -5,6 +5,7 @@ import { dbConfig, fe_url, port } from "./config/config";
 import { getLogger } from "./helpers/logger";
 import { HttpError } from "./helpers/custom-error";
 import authorRoute from "./routes/author-route";
+import bookRoute from "./routes/book-route";
 
 const logger = getLogger('SERVER');
 const app: Express = express();
@@ -20,6 +21,7 @@ app.use(cors({
 app.use(json());
 
 app.use("/authors", authorRoute);
+app.use("/books", bookRoute);
 
 app.use(
     (
@@ -31,7 +33,7 @@ app.use(
         if (err instanceof HttpError) {
             res.status(err.statusCode).json({ message: err.message });
         } else {
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: err.message });
         }
     }
 )

@@ -65,7 +65,8 @@ export const updateAuthor: RequestHandler = async (req: Request, res: Response, 
     logger.info('updateAuthor: ', JSON.stringify(req.body, null, 2));
     try {
         const payload: IAuthor = req.body;
-        const updatedAuthor = await authorService.updateAuthor(payload);
+        const authorId = req.body._id;
+        const updatedAuthor = await authorService.updateAuthor(authorId,payload);
     
         return res.status(200)
         .json({ data: updatedAuthor });

@@ -7,9 +7,9 @@ authorRoute.get("/:id", findAuthor);
 
 authorRoute.get("/", findAllAuthors);
 
-authorRoute.post("/create", createAuthor);
+authorRoute.post("/", createAuthor);
 
-authorRoute.put("/update", updateAuthor);
+authorRoute.put("/", updateAuthor);
 
 authorRoute.delete("/:id", deleteAuthor);
 
