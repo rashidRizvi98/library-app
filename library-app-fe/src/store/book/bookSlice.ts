@@ -3,13 +3,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { baseApiUrl } from "../../config/config";
+import { IBook, IBooksResponse } from "../../models/book";
 
-export interface IBook {
-  id: string;
-  name: string;
-  isbn: string;
-  author: any;
-}
+
 
 export interface BookState {
   loading: boolean;
@@ -26,7 +22,8 @@ const initialState: BookState = {
 export const fetchBooks = createAsyncThunk(
   "books/fetchBooks",
   () => {
-    const res = fetch(`${baseApiUrl}/books`, { method: 'GET' }).then(data => data.json());
+    const res = fetch(`${baseApiUrl}/books`, { method: 'GET' }).then(data => data.json()).then(data => data as IBooksResponse);
+    
     return res;
   }
 )
@@ -37,9 +34,9 @@ const bookSlice = createSlice({
     builder.addCase(fetchBooks.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchBooks.fulfilled, (state, action: PayloadAction<Array<IBook>>) => {
+    builder.addCase(fetchBooks.fulfilled, (state, action: PayloadAction<IBooksResponse>) => {
       state.loading = false;
-      state.books = action.payload;
+      state.books = action.payload.data;
     });
     builder.addCase(fetchBooks.rejected, (state, action) => {
       state.loading = false;
