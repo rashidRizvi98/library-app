@@ -89,7 +89,7 @@ function Books() {
   }
 
   const handleCreateBookSubmit = async(values: Partial<IAuthor>) => {
-    console.log("values", values)
+
     try {
       await createBook(values);
       toast.success("Book created"); 
