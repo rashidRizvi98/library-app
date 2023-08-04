@@ -9,4 +9,5 @@ export interface FormField {
     label: string;
     type: InputType;
     options?: Array<any>;
+    defaultValue?: string;
 }

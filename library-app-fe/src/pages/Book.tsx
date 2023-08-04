@@ -1,19 +1,52 @@
 import { useEffect, useState } from "react";
 import { getBook } from "../services/book";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { IBook } from "../models/book";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { authorSelector, fetchAuthors } from "../store/author/authorSlice";
+import FormModal from "../components/FormModal";
+import { bookformFields } from "../models/constants";
 
 function Book() {
   const params= useParams()
   const [book, setBook] = useState<IBook | null>(null);
 
+  const dispatch = useAppDispatch();
+
+  const [showUpdateBookModal, setShowUpdateBookModal] = useState(false);
+  const handleCloseUpdateBookModal = () => setShowUpdateBookModal(false);
+  const handleShowUpdateBookModal = () => setShowUpdateBookModal(true);  
+
+  const selectedAuthors = useAppSelector(authorSelector);
+  let bookUpdateFormFields = bookformFields;
+  
   useEffect(() => {
-    fetchBook();
+    if (selectedAuthors?.authors.length > 0) {
+      fetchBook();
+    }
+  },[selectedAuthors.authors]);
+
+  useEffect(() => {
+    if (selectedAuthors?.authors.length == 0) {
+      dispatch(fetchAuthors());
+    }
   },[]);
 
   const fetchBook = async() => {
     const res = await getBook(params.id!)
     setBook(res.data);
+    let bookData: any = res.data;
+    bookData = { ...bookData, "author": bookData["author"]?.[0]?._id }
+    bookUpdateFormFields.forEach((field, i) => {
+       bookUpdateFormFields[i] = { ...field, defaultValue: bookData[field.key] } 
+    })
+
+    const authorFieldIndex = bookUpdateFormFields.findIndex( field =>  field.key == "author");
+    bookUpdateFormFields[authorFieldIndex].options = selectedAuthors.authors?.map(author => ({_id: author._id, value: `${author.firstName} ${author.lastName} `}));
+  }
+
+  const handleUpdateBookSubmit =async (values:Partial<IBook>) => {
+    console.log("Book",values);
   }
 
     return (
@@ -30,7 +63,17 @@ function Book() {
                 <h4 className="card-title">Book name: { book?.name }</h4>
                 <h4 className="card-subtitle mb-2 text-muted">ISBN: { book?.isbn }</h4>  
                 <h4 className="card-subtitle mb-2 text-muted">Authored by: { `${book?.author?.[0]?.firstName} ${book?.author?.[0]?.lastName}` }</h4>  
-                <button className="btn btn-primary"> Update Book </button>
+                <button className="btn btn-primary" onClick={ handleShowUpdateBookModal }> Update Book </button>
+                {
+                 showUpdateBookModal && <FormModal 
+                  operation = { 'UPDATE' }
+                  formHeading = { 'Update Book' }
+                  handleClose = { handleCloseUpdateBookModal } 
+                  show = { showUpdateBookModal } 
+                  formFields = { bookformFields }
+                  handleSubmit = { handleUpdateBookSubmit }
+                />
+                }
                 </div>
               </div>
             </div>

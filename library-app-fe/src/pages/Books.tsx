@@ -4,12 +4,11 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import BookCard from "../components/BookCard";
 import Button from "react-bootstrap/Button";
 import FormModal from "../components/FormModal";
-import { FormField, InputType } from "../models/form";
 import { IBook } from "../models/book";
 import { createAuthor } from "../services/author";
 import { IAuthor } from "../models/author";
 import { authorSelector, fetchAuthors } from "../store/author/authorSlice";
-import { createAuthorformFields, createBookformFields } from "../models/constants";
+import { createAuthorformFields, bookformFields } from "../models/constants";
 import { createBook } from "../services/book";
 
 function Books() {
@@ -46,8 +45,8 @@ function Books() {
     setAuthorsError(selectedAuthors.error);
     setAuthors(selectedAuthors.authors);
 
-   const authorFieldIndex = createBookformFields.findIndex( field =>  field.key == "author");
-    createBookformFields[authorFieldIndex].options = selectedAuthors.authors?.map(author => ({_id: author._id, value: `${author.firstName} ${author.lastName} `  }));
+   const authorFieldIndex = bookformFields.findIndex( field =>  field.key == "author");
+    bookformFields[authorFieldIndex].options = selectedAuthors.authors?.map(author => ({_id: author._id, value: `${author.firstName} ${author.lastName} `  }));
   }, [selectedAuthors]);
 
   useEffect(() => {
@@ -100,7 +99,7 @@ function Books() {
               formHeading = { 'Create Book' }
               handleClose = { handleCloseCreateBookModal } 
               show = { showCreateBookModal } 
-              formFields = { createBookformFields }
+              formFields = { bookformFields }
               handleSubmit = { handleCreateBookSubmit }
             />
             </div>

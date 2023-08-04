@@ -13,7 +13,7 @@ export const createAuthorformFields: FormField[] = [
     }
 ];
 
-export const createBookformFields: FormField[] = [
+export const bookformFields: FormField[] = [
   {
     key: "name",
     label: "Enter the name",

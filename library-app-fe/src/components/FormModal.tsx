@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -26,10 +26,20 @@ function FormModal(props: any) {
 
     const handleDropDownSelect = (key: string, value: string, name: string) => {
       setValues({
-        [key]: value,
-        [`${key}-name`]: name
+        [key]: value/* ,
+        [`${key}-name`]: name */
       });
     }
+
+    useEffect(()=> {
+      let obj: any = {};
+      if (props?.operation == 'UPDATE') {
+        formFields.forEach((field) => {
+          obj[field.key] = field.defaultValue;
+        })
+        setPayload(obj)
+      }
+    },[formFields])
 
   return (
     <>
@@ -50,7 +60,7 @@ function FormModal(props: any) {
                                     <Form.Control 
                                           required = { true } 
                                           type="text" 
-                                          defaultValue={ payload[input.key] || "" }
+                                          defaultValue={ payload[input.key] }
                                           onChange={(e) => setValues({[input.key]: e.target.value})}
                                           />                
                                   </Form.Group>
@@ -61,7 +71,7 @@ function FormModal(props: any) {
                                   <Form.Group key = { index } className="mb-3">
                                   <Form.Label>{ input.label }</Form.Label>
                                     <DropdownButton
-                                      title={ payload[`${input.key}-name`] || 'Please select' }
+                                      title={ input.options?.find((option) => option._id == payload[input.key])?.value || 'Please select' }
                                       id="dropdown-menu-align-right"
                                       onSelect={(e) => input.options!.map((option) => option._id == e && handleDropDownSelect(input.key, option._id, option.value))}
                                     >

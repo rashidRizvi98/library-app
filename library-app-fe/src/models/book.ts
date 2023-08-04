@@ -5,6 +5,7 @@ export interface IBook {
     name: string;
     isbn: string;
     author?: IAuthor[];
+    [key: string]: any;
   }
 
 export interface IBooksResponse {
