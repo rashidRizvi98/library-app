@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Book, IBook } from "../database/models/book";
+import { Pagination } from "../models/pagination";
 
 
 const createBook = async (payload:IBook) => {
@@ -35,8 +36,14 @@ const findBookById = async (id: string) => {
     ]);
 } 
 
-const findAllBooks = async () => {
-    return Book.find();
+const findAllBooks = async ({ page, size }: Pagination) => {
+
+  const books = await Book.find().sort('name').skip((page-1) * size).limit(size).exec();
+
+  return {
+    books,
+    totalElements: await Book.countDocuments()
+  }
 }
 
 const deleteBook = async (id: string) => {

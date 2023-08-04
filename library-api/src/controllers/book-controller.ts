@@ -40,7 +40,18 @@ export const findBook: RequestHandler = async (req: Request, res: Response, next
 export const findAllBooks: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
-        const books = await bookService.findAllBooks();
+        const { page,size } = req.query;
+        let pageSize = Number(size);
+        let pageNumber = Number(page);
+        if (Number(size) > 10 || pageSize == null) {
+             pageSize = 10;
+        }
+
+        if (page == null) {
+            pageNumber = 1;
+        }
+
+        const books = await bookService.findAllBooks({ page: pageNumber, size: pageSize });
     
         return res.status(200)
         .json({ data: books });
