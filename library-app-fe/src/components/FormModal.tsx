@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import { FormField, InputType } from '../models/form';
 
 function FormModal(props: any) {
@@ -18,8 +20,15 @@ function FormModal(props: any) {
     
     const formFields: FormField[] = props.formFields;
 
-    const setValues = (key: string, value: string) => {
-        setPayload({...payload, [key]: value});
+    const setValues = (obj: any) => {
+        setPayload({...payload, ...obj});
+    }
+
+    const handleDropDownSelect = (key: string, value: string, name: string) => {
+      setValues({
+        [key]: value,
+        [`${key}-name`]: name
+      });
     }
 
   return (
@@ -33,19 +42,42 @@ function FormModal(props: any) {
                 {
                     formFields.map(
                         (input, index) => {
-                            if (input.type == InputType.TEXT) {
+                            switch (input.type) {
+                              case InputType.TEXT:
                                 return (
-                                    <Form.Group  key={ index } className="mb-3" controlId="formBasicEmail">
-                                      <Form.Label>{ input.label }</Form.Label>
-                                      <Form.Control 
-                                            required = { true } 
-                                            type="text" 
-                                            defaultValue={ payload[input.key] || "" }
-                                            onChange={(e) => setValues(input.key, e.target.value)}
-                                            />                
-                                    </Form.Group>
-                                    )                                
-                            }
+                                  <Form.Group  key={ index } className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>{ input.label }</Form.Label>
+                                    <Form.Control 
+                                          required = { true } 
+                                          type="text" 
+                                          defaultValue={ payload[input.key] || "" }
+                                          onChange={(e) => setValues({[input.key]: e.target.value})}
+                                          />                
+                                  </Form.Group>
+                                  )    
+
+                              case InputType.DROPDOWN:
+                                return (
+                                  <Form.Group key = { index } className="mb-3">
+                                  <Form.Label>{ input.label }</Form.Label>
+                                    <DropdownButton
+                                      title={ payload[`${input.key}-name`] || 'Please select' }
+                                      id="dropdown-menu-align-right"
+                                      onSelect={(e) => input.options!.map((option) => option._id == e && handleDropDownSelect(input.key, option._id, option.value))}
+                                    >
+                                      <Dropdown.Menu >
+                                        {input.options?.map((option) => {
+                                          return (
+                                            <Dropdown.Item key={option._id} eventKey={option._id}>
+                                              {option.value}
+                                            </Dropdown.Item>
+                                          );
+                                        })}
+                                      </Dropdown.Menu>
+                                    </DropdownButton>
+                                  </Form.Group>
+                                )
+                            } 
                         }
                     )
                 }

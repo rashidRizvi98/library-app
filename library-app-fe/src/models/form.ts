@@ -8,4 +8,5 @@ export interface FormField {
     key: string;
     label: string;
     type: InputType;
+    options?: Array<any>;
 }

@@ -6,5 +6,9 @@ export interface IAuthor {
 }
 
 export interface IAuthorCreateResponse {
-    data: IAuthor[]
+    data: IAuthor
   }
+
+export interface IAuthorsResponse {
+  data: IAuthor[]
+}

@@ -10,3 +10,11 @@ export interface IBook {
 export interface IBooksResponse {
   data: IBook[]
 }
+
+export interface IBookResponse {
+  data: IBook
+}
+
+export interface IBookCreateResponse {
+  data: IBook
+}
