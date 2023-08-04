@@ -14,6 +14,7 @@ import { createBook } from "../services/book";
 import Header from "../components/Header";
 import { ToastContainer, toast } from "react-toastify";
 import Paginate from "../components/Pagination";
+import AuthorsList from "../components/AuthorsList";
 
 function Books() {
 
@@ -94,8 +95,8 @@ function Books() {
         <div className="container mt-5">
           <div className="row">
             <div className="col-12">
-              <div className="d-flex justify-content-around">
-              <Button variant="primary" onClick={handleShowCreateAuthorModal}>
+              <div className="d-flex justify-content-center">
+              <Button className="mx-4" variant="primary" onClick={handleShowCreateAuthorModal}>
                 Create Author
               </Button>
               <FormModal 
@@ -105,7 +106,7 @@ function Books() {
                 formFields = { createAuthorformFields }
                 handleSubmit = { handleCreateAuthorSubmit }
               />
-              <Button variant="primary" onClick={handleShowCreateBookModal}>
+              <Button className="mx-4" variant="primary" onClick={handleShowCreateBookModal}>
                 Create Book
               </Button>
               <FormModal 
@@ -118,8 +119,11 @@ function Books() {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-12">
+          <div className="row my-4">
+            <div className="col-3">
+              <AuthorsList authors = { authors }/>
+            </div>
+            <div className="col-9">
             <div className="d-flex flex-wrap justify-content-center">
               { books?.map((book, index) => <BookCard key={ index } _id={ book._id } name= { book.name } isbn={ book.isbn } /> ) }
             </div>
