@@ -53,7 +53,7 @@ function Book() {
       toast.success("Book updated"); 
       await fetchBook();
     } catch (error) {
-      toast.info("Failed to update book"); 
+      toast.error("Failed to update book"); 
     }finally {
       setShowUpdateBookModal(false); 
     }

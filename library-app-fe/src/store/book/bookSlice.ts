@@ -1,9 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { baseApiUrl } from "../../config/config";
-import { IBook, IBooksResponse, IPaginatedBooks } from "../../models/book";
-
-
+import { IBooksResponse, IPaginatedBooks } from "../../models/book";
 
 export interface BookState {
   loading: boolean;

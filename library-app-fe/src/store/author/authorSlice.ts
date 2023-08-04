@@ -3,8 +3,6 @@ import { RootState } from "../store";
 import { baseApiUrl } from "../../config/config";
 import { IAuthor, IAuthorsResponse } from "../../models/author";
 
-
-
 export interface AuthorState {
   loading: boolean;
   authors: Array<IAuthor>;

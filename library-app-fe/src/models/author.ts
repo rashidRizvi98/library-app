@@ -1,4 +1,3 @@
-
 export interface IAuthor {
     _id: string;
     firstName: string;

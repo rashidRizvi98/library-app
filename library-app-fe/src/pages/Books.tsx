@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import BookCard from "../components/BookCard";
 import Button from "react-bootstrap/Button";
 import FormModal from "../components/FormModal";
-import Pagination from 'react-bootstrap/Pagination';
 import { IBook } from "../models/book";
 import { createAuthor } from "../services/author";
 import { IAuthor } from "../models/author";
@@ -40,7 +39,6 @@ function Books() {
       toast.warn("Please create an author first");  
       return;
     }
-
     setShowCreateBookModal(true)
   };
 
@@ -55,7 +53,6 @@ function Books() {
     setBooksLoading(selectedBooks.loading);
     setBooksError(selectedBooks.error);
     setBooks(selectedBooks.paginatedBooks.books);
-
   }, [selectedBooks]);
 
   useEffect(() => {
@@ -63,8 +60,8 @@ function Books() {
     setAuthorsError(selectedAuthors.error);
     setAuthors(selectedAuthors.authors);
 
-   const authorFieldIndex = bookformFields.findIndex( field =>  field.key == "author");
-    bookformFields[authorFieldIndex].options = selectedAuthors.authors?.map(author => ({_id: author._id, value: `${author.firstName} ${author.lastName} `  }));
+    const authorFieldIndex = bookformFields.findIndex( field =>  field.key == "author");
+    bookformFields[authorFieldIndex].options = selectedAuthors.authors?.map(author => ({_id: author._id, value: `${author.firstName} ${author.lastName}` }));
   }, [selectedAuthors]);
 
   useEffect(() => {
@@ -89,13 +86,12 @@ function Books() {
   }
 
   const handleCreateBookSubmit = async(values: Partial<IAuthor>) => {
-
     try {
       await createBook(values);
       toast.success("Book created"); 
       dispatch(fetchBooks({page: currentPage,size: booksPerPage}));
     } catch (error) {
-      toast.info("Failed to create book"); 
+      toast.error("Failed to create book"); 
     } finally {
       setShowCreateBookModal(false);
     }
