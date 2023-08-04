@@ -35,7 +35,7 @@ function FormModal(props: any) {
     <>
       <Modal show={props.show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>{ props.formHeading }</Modal.Title>
         </Modal.Header>
         <Form validated onSubmit={ handleSubmit }>
             <Modal.Body>

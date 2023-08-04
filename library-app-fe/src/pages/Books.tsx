@@ -87,6 +87,7 @@ function Books() {
               Create Author
             </Button>
             <FormModal 
+              formHeading = { 'Create Author' }
               handleClose = { handleCloseCreateAuthorModal } 
               show = { showCreateAuthorModal } 
               formFields = { createAuthorformFields }
@@ -96,6 +97,7 @@ function Books() {
               Create Book
             </Button>
             <FormModal 
+              formHeading = { 'Create Book' }
               handleClose = { handleCloseCreateBookModal } 
               show = { showCreateBookModal } 
               formFields = { createBookformFields }
