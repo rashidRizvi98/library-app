@@ -3,26 +3,26 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { baseApiUrl } from "../../config/config";
-import { IBook, IBooksResponse } from "../../models/book";
+import { IBook, IBooksResponse, IPaginatedBooks } from "../../models/book";
 
 
 
 export interface BookState {
   loading: boolean;
-  books: Array<IBook>;
+  paginatedBooks: IPaginatedBooks;
   error: string | undefined;
 }
 
 const initialState: BookState = {
   loading: false,
-  books: [],
+  paginatedBooks: { books: [], totalElements: 0 },
   error: undefined,
 }
 
 export const fetchBooks = createAsyncThunk(
   "books/fetchBooks",
-  () => {
-    const res = fetch(`${baseApiUrl}/books`, { method: 'GET' }).then(data => data.json()).then(data => data as IBooksResponse);
+  ({ page, size }: { page: number, size: number }) => {
+    const res = fetch(`${baseApiUrl}/books?page=${page}&size=${size}`, { method: 'GET' }).then(data => data.json()).then(data => data as IBooksResponse);
     
     return res;
   }
@@ -36,11 +36,11 @@ const bookSlice = createSlice({
     });
     builder.addCase(fetchBooks.fulfilled, (state, action: PayloadAction<IBooksResponse>) => {
       state.loading = false;
-      state.books = action.payload.data;
+      state.paginatedBooks = action.payload.data;
     });
     builder.addCase(fetchBooks.rejected, (state, action) => {
       state.loading = false;
-      state.books = [];
+      state.paginatedBooks = { books: [], totalElements: 0 };
       state.error = action.error.message;
     });
   },

@@ -9,7 +9,12 @@ export interface IBook {
   }
 
 export interface IBooksResponse {
-  data: IBook[]
+  data: IPaginatedBooks
+}
+
+export interface IPaginatedBooks {
+  books: IBook[];
+  totalElements: number
 }
 
 export interface IBookResponse {

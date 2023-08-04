@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { authorSelector, fetchAuthors } from "../store/author/authorSlice";
 import FormModal from "../components/FormModal";
 import { bookformFields } from "../models/constants";
-import Header from "../components/header";
+import Header from "../components/Header";
 
 function Book() {
   const params= useParams()

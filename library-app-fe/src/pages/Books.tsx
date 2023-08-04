@@ -4,14 +4,16 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import BookCard from "../components/BookCard";
 import Button from "react-bootstrap/Button";
 import FormModal from "../components/FormModal";
+import Pagination from 'react-bootstrap/Pagination';
 import { IBook } from "../models/book";
 import { createAuthor } from "../services/author";
 import { IAuthor } from "../models/author";
 import { authorSelector, fetchAuthors } from "../store/author/authorSlice";
 import { createAuthorformFields, bookformFields } from "../models/constants";
 import { createBook } from "../services/book";
-import Header from "../components/header";
+import Header from "../components/Header";
 import { ToastContainer, toast } from "react-toastify";
+import Paginate from "../components/Pagination";
 
 function Books() {
 
@@ -33,13 +35,18 @@ function Books() {
   const handleCloseCreateBookModal = () => setShowCreateBookModal(false);
   const handleShowCreateBookModal = () => setShowCreateBookModal(true);
 
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [booksPerPage] = useState(5);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     setBooksLoading(selectedBooks.loading);
     setBooksError(selectedBooks.error);
-    setBooks(selectedBooks.books);
+    setBooks(selectedBooks.paginatedBooks.books);
+
   }, [selectedBooks]);
 
   useEffect(() => {
@@ -52,9 +59,12 @@ function Books() {
   }, [selectedAuthors]);
 
   useEffect(() => {
-    dispatch(fetchBooks());
     dispatch(fetchAuthors());
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchBooks({page: currentPage,size: booksPerPage}));
+  },[currentPage]);
 
   const handleCreateAuthorSubmit = async(values: Partial<IAuthor>) => {
     console.log("values", values)
@@ -117,6 +127,14 @@ function Books() {
           </div>        
         </div>
         <ToastContainer />
+        <div>
+        <Paginate
+              itemsPerPage={booksPerPage}
+              totalItems={selectedBooks.paginatedBooks.totalElements}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
+        </div>
       </div>
     );
   }
