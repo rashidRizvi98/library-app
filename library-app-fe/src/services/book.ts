@@ -9,3 +9,7 @@ export const createBook = (payload: Partial<IBook>) => {
 export const getBook = (id: string) => {
     return fetch(`${baseApiUrl}/books/${id}`, { method: 'GET', headers: { 'Content-Type': 'application/json' } }).then(data => data.json()).then(data => data as IBookResponse);
 }
+
+export const updateBook = (payload: Partial<IBook>) => {
+    return fetch(`${baseApiUrl}/books`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(data => data.json()).then(data => data as IBookCreateResponse);
+} 

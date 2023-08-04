@@ -37,6 +37,7 @@ function FormModal(props: any) {
         formFields.forEach((field) => {
           obj[field.key] = field.defaultValue;
         })
+        obj['_id'] = props._id;
         setPayload(obj)
       }
     },[formFields])
