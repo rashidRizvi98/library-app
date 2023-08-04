@@ -76,13 +76,12 @@ function Books() {
   },[currentPage]);
 
   const handleCreateAuthorSubmit = async(values: Partial<IAuthor>) => {
-    console.log("values", values)
     try {
-      await createAuthor(values);  
+      await createAuthor(values)
       toast.success("Author created");
       dispatch(fetchAuthors()); 
     } catch (error) {
-      toast.info("Failed to create author"); 
+      toast.error("Failed to create author"); 
     }finally {
       setShowCreateAuthorModal(false);
     }
