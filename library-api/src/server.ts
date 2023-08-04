@@ -8,7 +8,7 @@ import authorRoute from "./routes/author-route";
 import bookRoute from "./routes/book-route";
 
 const logger = getLogger('SERVER');
-const app: Express = express();
+export const app: Express = express();
 
 app.get('/', (req,res) => {
     res.send('Hello World!');
@@ -41,7 +41,7 @@ app.use(
 mongoose.connect(`mongodb://${dbConfig.userName}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/${dbConfig.dbName}?authSource=admin`)
 .then(result => 
     app.listen(port, () => {
-        logger.info(`Server is listning ar: ${port}`);
+        logger.info(`Server is listning at: ${port}`);
     })
     )
 .catch(err => logger.error(err));

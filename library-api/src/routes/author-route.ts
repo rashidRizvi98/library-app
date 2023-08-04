@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { createAuthor, deleteAuthor, findAllAuthors, findAuthor, updateAuthor } from "../controllers/author-controller";
+import { authorCreationInputValidator } from "../middlewares/author-input-validator";
 
 const authorRoute = Router();
 
@@ -7,7 +8,7 @@ authorRoute.get("/:id", findAuthor);
 
 authorRoute.get("/", findAllAuthors);
 
-authorRoute.post("/", createAuthor);
+authorRoute.post("/", authorCreationInputValidator(),createAuthor);
 
 authorRoute.put("/", updateAuthor);
 
