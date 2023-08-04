@@ -35,7 +35,6 @@ export const findAuthor: RequestHandler = async (req: Request, res: Response, ne
         if (!author) {
             throw new HttpError(404, "Invalid id");
         }
-    
         return res.status(200)
         .json({ data: author });
     } catch (error) {
@@ -46,8 +45,7 @@ export const findAuthor: RequestHandler = async (req: Request, res: Response, ne
 export const findAllAuthors: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
-        const authors = await authorService.findAllAuthors();
-    
+        const authors = await authorService.findAllAuthors();    
         return res.status(200)
         .json({ data: authors });
     } catch (error) {
@@ -75,7 +73,6 @@ export const updateAuthor: RequestHandler = async (req: Request, res: Response, 
         const payload: IAuthor = req.body;
         const authorId = req.body._id;
         const updatedAuthor = await authorService.updateAuthor(authorId,payload);
-    
         return res.status(200)
         .json({ data: updatedAuthor });
     } catch (error) {

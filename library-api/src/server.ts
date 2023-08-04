@@ -39,9 +39,10 @@ app.use(
 )
 
 mongoose.connect(`mongodb://${dbConfig.userName}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/${dbConfig.dbName}?authSource=admin`)
-.then(result => 
+.then(result => {
+    logger.info(`Connected to db`);
     app.listen(port, () => {
         logger.info(`Server is listning at: ${port}`);
     })
-    )
+})
 .catch(err => logger.error(err));

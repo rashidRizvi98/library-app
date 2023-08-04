@@ -1,6 +1,4 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import { IAuthor } from "../database/models/author";
-import authorService from "../services/author-service";
 import { getLogger } from "../helpers/logger";
 import { HttpError } from "../helpers/custom-error";
 import { IBook } from "../database/models/book";
@@ -28,8 +26,7 @@ export const findBook: RequestHandler = async (req: Request, res: Response, next
         const book = await bookService.findBookById(id);
         if (!book) {
             throw new HttpError(404, "Invalid id");
-        }
-    
+        }    
         return res.status(200)
         .json({ data: book[0] });
     } catch (error) {
@@ -52,7 +49,6 @@ export const findAllBooks: RequestHandler = async (req: Request, res: Response, 
         }
 
         const books = await bookService.findAllBooks({ page: pageNumber, size: pageSize });
-    
         return res.status(200)
         .json({ data: books });
     } catch (error) {
@@ -80,7 +76,6 @@ export const updateBook: RequestHandler = async (req: Request, res: Response, ne
         const payload: IBook = req.body;
         const bookId = req.body._id;
         const updatedBook = await bookService.updateBook(bookId,payload);
-    
         return res.status(200)
         .json({ data: updatedBook });
     } catch (error) {
