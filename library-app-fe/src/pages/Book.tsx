@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getBook, updateBook } from "../services/book";
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 import { IBook } from "../models/book";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { authorSelector, fetchAuthors } from "../store/author/authorSlice";
@@ -88,6 +89,7 @@ function Book() {
               </div>
            </div>
         </div>
+        <ToastContainer />
       </div>
     );
   }

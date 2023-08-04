@@ -11,6 +11,7 @@ import { authorSelector, fetchAuthors } from "../store/author/authorSlice";
 import { createAuthorformFields, bookformFields } from "../models/constants";
 import { createBook } from "../services/book";
 import Header from "../components/header";
+import { ToastContainer, toast } from "react-toastify";
 
 function Books() {
 
@@ -58,10 +59,10 @@ function Books() {
   const handleCreateAuthorSubmit = async(values: Partial<IAuthor>) => {
     console.log("values", values)
     try {
-      await createAuthor(values);      
-      alert("Success")
+      await createAuthor(values);  
+      toast.success("Author created"); 
     } catch (error) {
-      alert("Failed to create author")
+      toast.info("Failed to create author"); 
     }
 
   }
@@ -70,9 +71,9 @@ function Books() {
     console.log("values", values)
     try {
       await createBook(values);
-      alert("Success")
+      toast.success("Book created"); 
     } catch (error) {
-      alert("Failed to create author")
+      toast.info("Failed to create book"); 
     }
 
   }
@@ -115,6 +116,7 @@ function Books() {
             </div>
           </div>        
         </div>
+        <ToastContainer />
       </div>
     );
   }
