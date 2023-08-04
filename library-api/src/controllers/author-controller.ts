@@ -3,11 +3,19 @@ import { IAuthor } from "../database/models/author";
 import authorService from "../services/author-service";
 import { getLogger } from "../helpers/logger";
 import { HttpError } from "../helpers/custom-error";
+import { validationResult } from "express-validator";
 
 const logger = getLogger('AUTHOR CONTROLLER');
 
 export const createAuthor: RequestHandler =async (req: Request, res: Response, next: NextFunction) => {
     logger.info('createAuthor: ', JSON.stringify(req.body, null, 2));
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        logger.error(errors.array());
+        return res.status(400).json({ errors: errors.array() });
+    }
 
     const payload: IAuthor = req.body;
     try{
