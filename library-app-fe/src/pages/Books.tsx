@@ -71,9 +71,12 @@ function Books() {
     console.log("values", values)
     try {
       await createAuthor(values);  
-      toast.success("Author created"); 
+      toast.success("Author created");
+      dispatch(fetchAuthors()); 
     } catch (error) {
       toast.info("Failed to create author"); 
+    }finally {
+      setShowCreateAuthorModal(false);
     }
 
   }
@@ -83,8 +86,11 @@ function Books() {
     try {
       await createBook(values);
       toast.success("Book created"); 
+      dispatch(fetchBooks({page: currentPage,size: booksPerPage}));
     } catch (error) {
       toast.info("Failed to create book"); 
+    } finally {
+      setShowCreateBookModal(false);
     }
 
   }
@@ -120,10 +126,10 @@ function Books() {
             </div>
           </div>
           <div className="row my-4">
-            <div className="col-3">
+            <div className="col-md-3">
               <AuthorsList authors = { authors }/>
             </div>
-            <div className="col-9">
+            <div className="col-md-9">
             <div className="d-flex flex-wrap justify-content-center">
               { books?.map((book, index) => <BookCard key={ index } _id={ book._id } name= { book.name } isbn={ book.isbn } /> ) }
             </div>

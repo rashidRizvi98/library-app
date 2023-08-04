@@ -4,7 +4,7 @@ import { IAuthor } from '../models/author';
 
 function AuthorsList(props: any) {
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{ width: '15rem' }}>
       <Card.Header>Authors</Card.Header>
       <ListGroup variant="flush">
         {
