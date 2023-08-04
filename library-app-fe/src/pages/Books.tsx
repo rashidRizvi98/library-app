@@ -34,7 +34,15 @@ function Books() {
 
   const [showCreateBookModal, setShowCreateBookModal] = useState(false);
   const handleCloseCreateBookModal = () => setShowCreateBookModal(false);
-  const handleShowCreateBookModal = () => setShowCreateBookModal(true);
+  const handleShowCreateBookModal = () => {
+  
+    if (selectedAuthors.authors.length == 0) {
+      toast.warn("Please create an author first");  
+      return;
+    }
+
+    setShowCreateBookModal(true)
+  };
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [booksPerPage] = useState(5);
