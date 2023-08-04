@@ -1,5 +1,3 @@
-
-// src/features/user/userSlice.ts
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { baseApiUrl } from "../../config/config";

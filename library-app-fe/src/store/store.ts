@@ -1,4 +1,3 @@
-// app/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import bookReducer from './book/bookSlice';
 import authorReducer from './author/authorSlice';
