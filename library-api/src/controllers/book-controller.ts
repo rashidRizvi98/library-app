@@ -31,7 +31,7 @@ export const findBook: RequestHandler = async (req: Request, res: Response, next
         }
     
         return res.status(200)
-        .json({ data: book });
+        .json({ data: book[0] });
     } catch (error) {
         return next(error);       
     }
