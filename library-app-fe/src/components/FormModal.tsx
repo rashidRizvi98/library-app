@@ -9,9 +9,8 @@ import { FormField, InputType } from '../models/form';
 function FormModal(props: any) {
 
     const [payload, setPayload] = useState({} as any);
-    const handleClose = () => {
-        setPayload({});
-        props.handleClose()}
+
+    const handleClose = () => props.handleClose();
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         props.handleSubmit(payload)
@@ -41,6 +40,12 @@ function FormModal(props: any) {
         setPayload(obj)
       }
     },[formFields])
+
+    useEffect(()=> {
+      if (!props.show) {
+        setPayload({});        
+      }
+     },[props.show])
 
   return (
     <>
