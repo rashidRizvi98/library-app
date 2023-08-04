@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { getBook } from "../services/book";
+import { getBook, updateBook } from "../services/book";
 import { useParams } from "react-router-dom";
 import { IBook } from "../models/book";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { authorSelector, fetchAuthors } from "../store/author/authorSlice";
 import FormModal from "../components/FormModal";
 import { bookformFields } from "../models/constants";
+import Header from "../components/header";
 
 function Book() {
   const params= useParams()
@@ -46,38 +47,47 @@ function Book() {
   }
 
   const handleUpdateBookSubmit =async (values:Partial<IBook>) => {
-    console.log("Book",values);
+    try {
+      await updateBook(values);      
+      alert("Success")
+    } catch (error) {
+      alert("Failed to update")
+    }
   }
 
     return (
-      <div className="container">
-         <div className="row">
-            <div className="col-12">
-              <h1>Book Details</h1>
-            </div>
-         </div>
-         <div className="row">
-            <div className="col-12">
-              <div className="card mx-5" style={{width: "30rem"}}>
-                <div className="card-body">
-                <h4 className="card-title">Book name: { book?.name }</h4>
-                <h4 className="card-subtitle mb-2 text-muted">ISBN: { book?.isbn }</h4>  
-                <h4 className="card-subtitle mb-2 text-muted">Authored by: { `${book?.author?.[0]?.firstName} ${book?.author?.[0]?.lastName}` }</h4>  
-                <button className="btn btn-primary" onClick={ handleShowUpdateBookModal }> Update Book </button>
-                {
-                 showUpdateBookModal && <FormModal 
-                  operation = { 'UPDATE' }
-                  formHeading = { 'Update Book' }
-                  handleClose = { handleCloseUpdateBookModal } 
-                  show = { showUpdateBookModal } 
-                  formFields = { bookformFields }
-                  handleSubmit = { handleUpdateBookSubmit }
-                />
-                }
+      <div>
+        <Header/>
+        <div className="container">
+           <div className="row">
+              <div className="col-12">
+                <h1>Book Details</h1>
+              </div>
+           </div>
+           <div className="row">
+              <div className="col-12">
+                <div className="card mx-5" style={{width: "30rem"}}>
+                  <div className="card-body">
+                  <h4 className="card-title">Book name: { book?.name }</h4>
+                  <h4 className="card-subtitle mb-2 text-muted">ISBN: { book?.isbn }</h4>  
+                  <h4 className="card-subtitle mb-2 text-muted">Authored by: { `${book?.author?.[0]?.firstName} ${book?.author?.[0]?.lastName}` }</h4>  
+                  <button className="btn btn-primary" onClick={ handleShowUpdateBookModal }> Update Book </button>
+                  {
+                   showUpdateBookModal && <FormModal 
+                    operation = { 'UPDATE' }
+                    formHeading = { 'Update Book' }
+                    handleClose = { handleCloseUpdateBookModal } 
+                    show = { showUpdateBookModal } 
+                    formFields = { bookformFields }
+                    handleSubmit = { handleUpdateBookSubmit }
+                    _id = { book?._id }
+                  />
+                  }
+                  </div>
                 </div>
               </div>
-            </div>
-         </div>
+           </div>
+        </div>
       </div>
     );
   }

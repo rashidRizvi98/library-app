@@ -10,6 +10,7 @@ import { IAuthor } from "../models/author";
 import { authorSelector, fetchAuthors } from "../store/author/authorSlice";
 import { createAuthorformFields, bookformFields } from "../models/constants";
 import { createBook } from "../services/book";
+import Header from "../components/header";
 
 function Books() {
 
@@ -77,41 +78,43 @@ function Books() {
   }
 
     return (
-      <div className="container">
-        <h1>Books</h1>
-        <div className="row">
-          <div className="col-12">
-            <div className="d-flex justify-content-around">
-            <Button variant="primary" onClick={handleShowCreateAuthorModal}>
-              Create Author
-            </Button>
-            <FormModal 
-              formHeading = { 'Create Author' }
-              handleClose = { handleCloseCreateAuthorModal } 
-              show = { showCreateAuthorModal } 
-              formFields = { createAuthorformFields }
-              handleSubmit = { handleCreateAuthorSubmit }
-            />
-            <Button variant="primary" onClick={handleShowCreateBookModal}>
-              Create Book
-            </Button>
-            <FormModal 
-              formHeading = { 'Create Book' }
-              handleClose = { handleCloseCreateBookModal } 
-              show = { showCreateBookModal } 
-              formFields = { bookformFields }
-              handleSubmit = { handleCreateBookSubmit }
-            />
+      <div>
+        <Header/>
+        <div className="container mt-5">
+          <div className="row">
+            <div className="col-12">
+              <div className="d-flex justify-content-around">
+              <Button variant="primary" onClick={handleShowCreateAuthorModal}>
+                Create Author
+              </Button>
+              <FormModal 
+                formHeading = { 'Create Author' }
+                handleClose = { handleCloseCreateAuthorModal } 
+                show = { showCreateAuthorModal } 
+                formFields = { createAuthorformFields }
+                handleSubmit = { handleCreateAuthorSubmit }
+              />
+              <Button variant="primary" onClick={handleShowCreateBookModal}>
+                Create Book
+              </Button>
+              <FormModal 
+                formHeading = { 'Create Book' }
+                handleClose = { handleCloseCreateBookModal } 
+                show = { showCreateBookModal } 
+                formFields = { bookformFields }
+                handleSubmit = { handleCreateBookSubmit }
+              />
+              </div>
             </div>
           </div>
+          <div className="row">
+            <div className="col-12">
+            <div className="d-flex flex-wrap justify-content-center">
+              { books?.map((book, index) => <BookCard key={ index } _id={ book._id } name= { book.name } isbn={ book.isbn } /> ) }
+            </div>
+            </div>
+          </div>        
         </div>
-        <div className="row">
-          <div className="col-12">
-          <div className="d-flex flex-wrap justify-content-center">
-            { books?.map((book, index) => <BookCard key={ index } _id={ book._id } name= { book.name } isbn={ book.isbn } /> ) }
-          </div>
-          </div>
-        </div>        
       </div>
     );
   }
