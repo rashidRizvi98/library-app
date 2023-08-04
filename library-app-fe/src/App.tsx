@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route path='/' element = { <RedirectToBooks/> }/>
           <Route path="/books"  element = {<Books/>}/>
-          <Route path="/books:id"  element = {<Book/>}/>
+          <Route path="/books/:id"  element = {<Book/>}/>
         </Routes>
       </BrowserRouter>
     </div>
