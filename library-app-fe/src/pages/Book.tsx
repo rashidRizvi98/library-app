@@ -49,10 +49,13 @@ function Book() {
 
   const handleUpdateBookSubmit =async (values:Partial<IBook>) => {
     try {
-      await updateBook(values);      
-      alert("Success")
+      await updateBook(values);   
+      toast.success("Book updated"); 
+      await fetchBook();
     } catch (error) {
-      alert("Failed to update")
+      toast.info("Failed to update book"); 
+    }finally {
+      setShowUpdateBookModal(false); 
     }
   }
 
@@ -60,7 +63,7 @@ function Book() {
       <div>
         <Header/>
         <div className="container">
-           <div className="row">
+           <div className="row my-4">
               <div className="col-12">
                 <h1>Book Details</h1>
               </div>
