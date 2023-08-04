@@ -106,7 +106,7 @@ function Books() {
         </div>
         <div className="row">
           <div className="col-12">
-          <div className="d-flex justify-content-center">
+          <div className="d-flex flex-wrap justify-content-center">
             { books?.map((book, index) => <BookCard key={ index } _id={ book._id } name= { book.name } isbn={ book.isbn } /> ) }
           </div>
           </div>
